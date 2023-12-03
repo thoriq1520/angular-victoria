@@ -1,0 +1,96 @@
+<main>
+    <div *ngIf="viewMode; else editable">
+        <div *ngIf="currentCrud.id">
+          <h4>Tutorial</h4>
+          <div>
+            <label><strong>Title:</strong></label> {{ currentCrud.title }}
+          </div>
+          <div>
+            <label><strong>Description:</strong></label>
+            {{ currentCrud.description }}
+          </div>
+          <div>
+            <label><strong>Status:</strong></label>
+            {{ currentCrud.published ? "Published" : "Pending" }}
+          </div>
+      
+          <a
+            class="badge badge-warning"
+            routerLink="/crud/{{ currentCrud.id }}"
+          >
+            Edit
+          </a>
+        </div>
+      
+        <div *ngIf="!currentCrud">
+          <br />
+          <p>Please click on a Crud...</p>
+        </div>
+      </div>
+      
+      <ng-template #editable>
+        <div *ngIf="currentCrud.id" class="edit-form">
+          <h4>Crud</h4>
+          <form>
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                [(ngModel)]="currentCrud.title"
+                name="title"
+              />
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                id="description"
+                [(ngModel)]="currentCrud.description"
+                name="description"
+              />
+            </div>
+      
+            <div class="form-group">
+              <label><strong>Status:</strong></label>
+              {{ currentCrud.published ? "Published" : "Pending" }}
+            </div>
+          </form>
+      
+          <button
+            class="badge badge-primary mr-2"
+            *ngIf="currentCrud.published"
+            (click)="updatePublished(false)"
+          >
+            UnPublish
+          </button>
+          <button
+            *ngIf="!currentCrud.published"
+            class="badge badge-primary mr-2"
+            (click)="updatePublished(true)"
+          >
+            Publish
+          </button>
+      
+          <button class="badge badge-danger mr-2" (click)="deleteCrud()">
+            Delete
+          </button>
+      
+          <button
+            type="submit"
+            class="badge badge-success mb-2"
+            (click)="updateCrud()"
+          >
+            Update
+          </button>
+          <p>{{ message }}</p>
+        </div>
+      
+        <div *ngIf="!currentCrud.id">
+          <br />
+          <p>Cannot access this Data...</p>
+        </div>
+      </ng-template>
+</main>
